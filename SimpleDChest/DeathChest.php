@@ -47,4 +47,27 @@ class DeathChest extends PluginBase implements Listener {
             return;
         }
         if ($item->getNamedTag()->getTag("PlayerItems") !== null) {
+            $tag = $item->getNamedTag()->getListTag("PlayerItems");        if (!$player instanceof Player) {
+            return;
+        }
+        if ($item->getNamedTag()->getTag("PlayerItems") !== null) {
             $tag = $item->getNamedTag()->getListTag("PlayerItems");
+
+            /** @var CompoundTag $nbt */
+            foreach ($tag->getValue() as $nbt) {
+                $item = Item::nbtDeserialize($nbt);
+
+                if ($player->getInventory()->canAddItem($item)) {
+                    $player->getInventory()->addItem($item);
+                } else {
+                    $player->getWorld()->dropItem($player->getPosition(), $item);
+                }
+            }
+            $event->cancel();
+            $count = $item->getCount();
+            $item->setCount(--$count);
+            $player->getInventory()->setItemInHand($item);
+        }
+    }
+    }
+  
