@@ -1,0 +1,5 @@
+name: SimpleDeathChest
+version: 1.0.0
+author: OldVersal
+api: 5.0.0
+main: SimpleDChest\DeathChest
